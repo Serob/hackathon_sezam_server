@@ -166,3 +166,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+.idea/hackathon_sezam_server.iml
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
