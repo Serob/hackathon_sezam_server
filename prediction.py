@@ -19,5 +19,4 @@ def predict(message, model_word):
     list_message = message.split('|_')
     while '' in list_message:
         list_message.remove('')
-    print(list_message)
-    return model_word.predict_output_word(list_message, topn=10)
+    return model_word.predict_output_word(list_message, topn=3)

@@ -1,6 +1,6 @@
 #!flask/bin/python
 
-from flask import request, Response
+from flask import request, Response, jsonify
 from flask_restful import Resource
 import prediction
 from init_api import api, app
@@ -19,11 +19,15 @@ class User(Resource):
         message = args['message']
 
         if method == 'sg':
-            data = str({'predicted word': str(prediction.predict(message, model_sg))})
+            pred_messages = list(map(lambda x: x[0], prediction.predict(message, model_sg)))
+            data = str({"predicted word": pred_messages}).replace("'", "\"")
+            print(data)
             r = Response(response=data)
             return r
         else:
-            data = str({'predicted word': str(prediction.predict(message, model_sbow))})
+            pred_messages = list(map(lambda x: x[0], prediction.predict(message, model_sbow)))
+            data = str({"predicted word": pred_messages}).replace("'", "\"")
+            print(data)
             r = Response(response=data)
             return r
 
@@ -32,4 +36,4 @@ class User(Resource):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=80, threaded=True)
+    app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
