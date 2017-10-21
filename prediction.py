@@ -12,7 +12,7 @@ def train(method):
 
             if filtered_buf:
                 sentences.append(filtered_buf)
-    return gensim.models.Word2Vec(sentences, min_count=1, workers=4, sg=method)
+    return gensim.models.Word2Vec(sentences, window=3, min_count=1, workers=4, sg=method)
 
 
 def predict(message, model_word):
