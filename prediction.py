@@ -3,7 +3,7 @@ import gensim
 model = gensim.models.Word2Vec()
 
 
-def train():
+def train(method):
     sentences = []
     with open("filtered_messages.txt", encoding="utf-8") as file:
         for line in file:
@@ -12,7 +12,7 @@ def train():
 
             if filtered_buf:
                 sentences.append(filtered_buf)
-    return gensim.models.Word2Vec(sentences, min_count=1, workers=4)
+    return gensim.models.Word2Vec(sentences, min_count=1, workers=4, sg=method)
 
 
 def predict(message, model_word):
