@@ -1,10 +1,9 @@
 #!flask/bin/python
 
-from flask import request
+from flask import request, Response
 from flask_restful import Resource
 import prediction
 from init_api import api, app
-import flask_oauthlib
 
 model_sbow = prediction.train(0)
 model_sg = prediction.train(1)
@@ -14,15 +13,19 @@ model_sg = prediction.train(1)
 class User(Resource):
     def get(self):
         args = request.args
-        method = 'sbow'
+        method = 'sbow'  # by default
         if list(args.keys()).count('method') == 1:
             method = args['method']
         message = args['message']
-        #print(args['method'])
+
         if method == 'sg':
-            return {'predicted word': str(prediction.predict(message, model_sg))}
+            data = str({'predicted word': str(prediction.predict(message, model_sg))})
+            r = Response(response=data)
+            return r
         else:
-            return {'predicted word': str(prediction.predict(message, model_sbow))}
+            data = str({'predicted word': str(prediction.predict(message, model_sbow))})
+            r = Response(response=data)
+            return r
 
     def post(self, username):
         return {'post username': username}

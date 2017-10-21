@@ -6,6 +6,7 @@ import types
 
 app = Flask(__name__)
 api = Api(app)
+app.config['JSON_AS_ASCII'] = False
 
 
 def api_route(self, *args, **kwargs):
