@@ -13,23 +13,26 @@ model_sg = prediction.train(1)
 class User(Resource):
     def get(self):
         args = request.args
-        method = 'sbow'  # by default
-        if list(args.keys()).count('method') == 1:
-            method = args['method']
-        message = args['message']
-
-        if method == 'sg':
-            pred_messages = list(map(lambda x: x[0], prediction.predict(message, model_sg)))
-            data = str({"predicted word": pred_messages}).replace("'", "\"")
-            print(data)
-            r = Response(response=data)
+        if not dict(request.args).keys():
+            r = Response(response=str({"predicted word": []}).replace("'", "\""))
             return r
         else:
-            pred_messages = list(map(lambda x: x[0], prediction.predict(message, model_sbow)))
-            data = str({"predicted word": pred_messages}).replace("'", "\"")
-            print(data)
-            r = Response(response=data)
-            return r
+            method = 'sbow'  # by default
+            if list(args.keys()).count('method') == 1:
+                method = args['method']
+            message = args['message']
+            if method == 'sg':
+                pred_messages = list(map(lambda x: x[0], prediction.predict(message, model_sg)))
+                data = str({"predicted word": pred_messages}).replace("'", "\"")
+                print(data)
+                r = Response(response=data)
+                return r
+            else:
+                pred_messages = list(map(lambda x: x[0], prediction.predict(message, model_sbow)))
+                data = str({"predicted word": pred_messages}).replace("'", "\"")
+                print(data)
+                r = Response(response=data)
+                return r
 
     def post(self, username):
         return {'post username': username}
