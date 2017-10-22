@@ -21,6 +21,8 @@ class User(Resource):
             if list(args.keys()).count('method') == 1:
                 method = args['method']
             message = args['message']
+            if message == '':
+                return Response(response=str({"predict word": []}).replace("'", "\""))
             if method == 'sg':
                 pred_messages = list(map(lambda x: x[0], prediction.predict(message, model_sg)))
                 data = str({"predicted word": pred_messages}).replace("'", "\"")
