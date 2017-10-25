@@ -15,6 +15,7 @@ class User(Resource):
         JSON_NAME="predict worded"
         parser = reqparse.RequestParser()
         parser.add_argument('message', type=str, required=True)
+        parser.add_argument('method', type=str)
         args = parser.parse_args(strict=True)
         message = args['message']
 
